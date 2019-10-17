@@ -1,0 +1,18 @@
+{
+  "name": "api-masterclass",
+  "version": "1.0.0",
+  "description": "Node.js Masterclass tutorial",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon ./playground/NODEHTTP/server.js"
+  },
+  "keywords": [
+    "Tutorial",
+    "project"
+  ],
+  "author": "Brad Traversy, learner: Sam",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  }
+}
