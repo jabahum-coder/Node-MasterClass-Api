@@ -5,20 +5,23 @@
   "main": "index.js",
   "scripts": {
     "test": "nodemon ./playground/NODEHTTP/server.js",
-    "start": "NODE_ENV=production node index.js",
-    "dev": "nodemon index.js"
+    "start": "SET NODE_ENV=production & node server",
+    "dev": "nodemon server"
   },
   "keywords": [
     "Tutorial",
     "project"
   ],
   "author": "Brad Traversy, learner: Sam",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "nodemon": "^1.19.4"
   },
   "dependencies": {
+    "colors": "^1.4.0",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongoose": "^5.7.5",
+    "morgan": "^1.9.1"
   }
 }
