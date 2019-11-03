@@ -25,7 +25,7 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
 	// Regex for query match & replace to create operators
 	queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, (match) => `$${match}`);
 	// Finding & executing resource
-	query = Bootcamp.find(JSON.parse(queryStr));
+	query = Bootcamp.find(JSON.parse(queryStr)).populate('courses');
 	// note: ref to mongoose for methods such as skip, limit, etc
 
 	// Select Fields
@@ -114,11 +114,13 @@ exports.updateBootcamp = asyncHandler(async (req, res, next) => {
 // @access 	Private
 exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
 	// find by id and delete not findOneAndDelete !!!
-
-	const bootcamp = await Bootcamp.findByIdAndDelete(req.params.id);
+	// update: find by ID to use middleware delete func
+	const bootcamp = await Bootcamp.findById(req.params.id);
 	if (!bootcamp) {
 		return next(new ErrorResponse(`No matching bootcamp found`, 404));
 	}
+	// required for Schema.pre middleware
+	bootcamp.remove();
 	res.status(200).json({ success: true, data: {} });
 });
 
