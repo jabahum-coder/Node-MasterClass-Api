@@ -120,7 +120,7 @@ exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
 		return next(new ErrorResponse(`No matching bootcamp found`, 404));
 	}
 	// required for Schema.pre middleware
-	bootcamp.remove();
+	await bootcamp.remove();
 	res.status(200).json({ success: true, data: {} });
 });
 

@@ -52,14 +52,36 @@ exports.addCourse = asyncHandler(async (req, res, next) => {
 	res.status(200).json({ success: true, data: course });
 });
 
-// @desc 	GET courses
-// @route 	GET /api/v1/courses/
-// @route 	GET /api/v1/bootcamps/:bootcampId/courses
-// @access	 Public
-exports.updateCourses = asyncHandler();
+// @desc 	Updaate courses
+// @route 	PUT /api/v1/courses/:id
+// @access	 Private
+exports.updateCourse = asyncHandler(async (req, res, next) => {
+	const queryId = req.params.id;
+	let course = await Course.findById(queryId);
 
-// @desc 	GET courses
-// @route 	GET /api/v1/courses/
-// @route 	GET /api/v1/bootcamps/:bootcampId/courses
-// @access	 Public
-exports.deleteCourses = asyncHandler();
+	if (!course) {
+		return next(new ErrorResponse(`No course matching id: ${queryId}`, 404));
+	}
+
+	course = await Course.findByIdAndUpdate(queryId, req.body, {
+		new: true,
+		runValidators: true
+	});
+
+	res.status(200).json({ success: true, data: course });
+});
+
+// @desc 	Delet course
+// @route 	Delete /api/v1/courses/:id
+// @access	 Private
+exports.deleteCourse = asyncHandler(async (req, res, next) => {
+	const course = await Course.findById(req.params.id);
+	if (!course) {
+		return next(new ErrorResponse(`No matching course found with id: ${req.params.id}`, 404));
+	}
+
+	// required for  middleware
+	await course.remove();
+
+	res.status(200).json({ success: true, data: {} });
+});
