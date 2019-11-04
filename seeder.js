@@ -11,6 +11,7 @@ dotenv.config({
 // Laod models
 const Bootcamp = require('./models/Bootcamp');
 const Course = require('./models/Course');
+const User = require('./models/User');
 
 // Connect to DB
 mongoose.connect(process.env.MONGO_URI, {
@@ -46,8 +47,20 @@ const deleteData = async () => {
 	}
 };
 
+const deleteUserData = async () => {
+	try {
+		await User.deleteMany();
+		console.log('User Data Deleted...'.blue.inverse);
+		process.exit();
+	} catch (err) {
+		console.error(err);
+	}
+};
+
 if (process.argv[2] === '-i') {
 	importData();
 } else if (process.argv[2] === '-d') {
 	deleteData();
+} else if (process.argv[2] === 'du') {
+	deleteUserData();
 }

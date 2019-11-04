@@ -1,3 +1,4 @@
+// Typo createdAt leave it for now since db seeded
 const mongoose = require('mongoose');
 
 const CourseSchema = new mongoose.Schema({
