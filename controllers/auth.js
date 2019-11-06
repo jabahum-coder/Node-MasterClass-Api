@@ -1,6 +1,7 @@
 const ErrorResponse = require('../utils/ErrorResponse');
 const asyncHandler = require('../middleware/async');
 const User = require('../models/User');
+const sendTokenResponse = require('../utils/helpers/tokenResponse');
 
 //@desc     Register User
 //@route    POST /api/v1/auth/register
@@ -16,10 +17,7 @@ exports.register = asyncHandler(async (req, res, next) => {
 		role
 	});
 
-	// Create token
-	const token = user.getSignedJwtToken();
-
-	res.status(200).json({ success: true, token });
+	sendTokenResponse(user, 200, res);
 });
 
 //@desc     Login User
@@ -45,7 +43,5 @@ exports.login = asyncHandler(async (req, res, next) => {
 		return next(new ErrorResponse('The email or password is not correct', 401));
 	}
 
-	// Create token
-	const token = user.getSignedJwtToken();
-	res.status(200).json({ success: true, token });
+	sendTokenResponse(user, 200, res);
 });
