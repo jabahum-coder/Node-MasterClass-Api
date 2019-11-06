@@ -6,6 +6,9 @@ const express = require('express');
 // Merge re-routed routes
 const router = express.Router({ mergeParams: true });
 
+// protect
+const { protect } = require('../middleware/auth');
+
 //  default
 router
 	.route('/')
@@ -16,9 +19,9 @@ router
 		}),
 		getCourses
 	)
-	.post(addCourse);
+	.post(protect, addCourse);
 
 //  default/:id
-router.route('/:id').get(getCoursesById).put(updateCourse).delete(deleteCourse);
+router.route('/:id').get(getCoursesById).put(protect, updateCourse).delete(protect, deleteCourse);
 
 module.exports = router;
