@@ -28,3 +28,13 @@ exports.protect = asyncHandler(async (req, res, next) => {
 		return next(new ErrorResponse('Unauthorized access', 401));
 	}
 });
+
+// Grant accest to specific roles
+
+exports.authorize = (...roles) => (req, res, next) => {
+	const role = req.user.role;
+	if (!roles.includes(req.user.role)) {
+		return next(new ErrorResponse(`User role ${role} is unauthrized to access this route  `, 403));
+	}
+	next();
+};
