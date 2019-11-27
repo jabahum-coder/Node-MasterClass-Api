@@ -2,7 +2,7 @@ const advancedResults = (Model, populate) => async (req, res, next) => {
 	// Matching query parameters
 	let query;
 	// Copy req.query
-	let reqQuery = { ...req.query };
+	const reqQuery = { ...req.query };
 
 	// Fields to exclude
 	const removeFields = [ 'select', 'sort', 'page', 'limit' ];
@@ -37,7 +37,7 @@ const advancedResults = (Model, populate) => async (req, res, next) => {
 		const sortBy = req.query.sort.split(',').join(' ');
 		query = query.sort(sortBy);
 	} else {
-		query = query.sort('-createAt');
+		query = query.sort('-createdAt');
 	}
 	// Pagination
 	const page = parseInt(req.query.page, 10) || 1;

@@ -11,11 +11,13 @@ const {
 } = require('../controllers/bootcamps');
 const Bootcamp = require('../models/Bootcamp');
 
-const advancedResults = require('../middleware/advancedResult');
+
 
 // Include other resource routers
 const courseRouter = require('./courses');
 
+
+const advancedResults = require('../middleware/advancedResult');
 // Protect route function
 const { protect, authorize } = require('../middleware/auth');
 
