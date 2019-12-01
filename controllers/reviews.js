@@ -54,3 +54,44 @@ exports.createReview = asyncHandler(async (req, res, next) => {
 
 	res.status(201).json({ succes: true, data: review });
 });
+
+// @desc 	Update review
+// @route 	PUT /api/v1/reviews/:id
+// @access	 Private
+exports.updateReview = asyncHandler(async (req, res, next) => {
+	const user = req.user.id;
+	const review = await Reviews.findById(req.params.id);
+
+	if (!review) {
+		return next(new ErrorResponse(`No review found with matching parameter: ${req.params.id}`));
+	}
+	if (user !== review.user.toString()) {
+		return next(new ErrorResponse('Unauthorized access'), 401);
+	}
+
+	review = await Reviews.findByIdAndUpdate(req.params.id, req.body, {
+		new: true,
+		runValidators: true
+	});
+
+	res.status(201).json({ succes: true, data: review });
+});
+
+// @desc 	Delete review by user
+// @route 	DELETE /api/v1/reviews/:id
+// @access	Private
+exports.updateReview = asyncHandler(async (req, res, next) => {
+	const user = req.user.id;
+	const review = await Reviews.findById(req.params.id);
+
+	if (!review) {
+		return next(new ErrorResponse(`No review found with matching parameter: ${req.params.id}`));
+	}
+	if (user !== review.user.toString()) {
+		return next(new ErrorResponse('Unauthorized access'), 401);
+	}
+
+	await Reviews.findByIdAndDelete(req.params.id);
+
+	res.status(201).json({ succes: true, data: {} });
+});

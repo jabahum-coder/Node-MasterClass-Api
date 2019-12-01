@@ -19,8 +19,7 @@ router
 	)
 	.post(protect, authorize('admin', 'user'), createReview);
 
-router.route('/:id').get(getReviewById);
-// .put(protect, authorize('publisher', 'admin'), updateReview)
+router.route('/:id').get(getReviewById).put(protect, authorize('user', 'admin'), updateReview);
 // .delete(protect, authorize('publisher', 'admin'), deleteReview);
 
 module.exports = router;
