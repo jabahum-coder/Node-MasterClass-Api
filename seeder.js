@@ -12,6 +12,7 @@ dotenv.config({
 const Bootcamp = require('./models/Bootcamp');
 const Course = require('./models/Course');
 const User = require('./models/User');
+const Reviews = require('./models/Review');
 
 // Connect to DB
 mongoose.connect(process.env.MONGO_URI, {
@@ -25,6 +26,7 @@ mongoose.connect(process.env.MONGO_URI, {
 const bootcamps = readFile('/_data/bootcamps.json');
 const courses = readFile('/_data/courses.json');
 const users = readFile('/_data/users.json');
+const reviews = readFile('./_data/reviews.json');
 
 // Import into DB
 const importData = async () => {
@@ -32,17 +34,30 @@ const importData = async () => {
 		await Bootcamp.create(bootcamps);
 		await Course.create(courses);
 		await User.create(users);
+		await Reviews.create(reviews);
 		console.log('Data Imported...'.green.inverse);
 		process.exit();
 	} catch (err) {
 		console.error(err);
 	}
 };
+
+const importReview = async () => {
+	try {
+		await Reviews.create(reviews);
+		console.log('Data Imported...'.green.inverse);
+		process.exit();
+	} catch (err) {
+		console.error(err);
+	}
+};
+
 const deleteData = async () => {
 	try {
 		await Bootcamp.deleteMany();
 		await Course.deleteMany();
 		await User.deleteMany();
+		await Reviews.deleteMany();
 		console.log('Data deleted...'.cyan.inverse);
 		process.exit();
 	} catch (err) {
@@ -66,4 +81,6 @@ if (process.argv[2] === '-i') {
 	deleteData();
 } else if (process.argv[2] === 'du') {
 	deleteUserData();
+} else if (process.argv[2] === 'ir') {
+	importReview();
 }
