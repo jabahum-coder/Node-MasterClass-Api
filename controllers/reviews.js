@@ -60,12 +60,12 @@ exports.createReview = asyncHandler(async (req, res, next) => {
 // @access	 Private
 exports.updateReview = asyncHandler(async (req, res, next) => {
 	const user = req.user.id;
-	const review = await Reviews.findById(req.params.id);
+	let review = await Reviews.findById(req.params.id);
 
 	if (!review) {
 		return next(new ErrorResponse(`No review found with matching parameter: ${req.params.id}`));
 	}
-	if (user !== review.user.toString()) {
+	if (user !== review.user.toString() && req.user.role !== 'admin') {
 		return next(new ErrorResponse('Unauthorized access'), 401);
 	}
 
@@ -74,20 +74,20 @@ exports.updateReview = asyncHandler(async (req, res, next) => {
 		runValidators: true
 	});
 
-	res.status(201).json({ succes: true, data: review });
+	res.status(200).json({ succes: true, data: review });
 });
 
 // @desc 	Delete review by user
 // @route 	DELETE /api/v1/reviews/:id
 // @access	Private
-exports.updateReview = asyncHandler(async (req, res, next) => {
+exports.deleteReview = asyncHandler(async (req, res, next) => {
 	const user = req.user.id;
 	const review = await Reviews.findById(req.params.id);
 
 	if (!review) {
 		return next(new ErrorResponse(`No review found with matching parameter: ${req.params.id}`));
 	}
-	if (user !== review.user.toString()) {
+	if (user !== review.user.toString() && req.user.role !== 'admin') {
 		return next(new ErrorResponse('Unauthorized access'), 401);
 	}
 
