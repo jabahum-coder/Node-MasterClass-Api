@@ -91,7 +91,7 @@ exports.deleteReview = asyncHandler(async (req, res, next) => {
 		return next(new ErrorResponse('Unauthorized access'), 401);
 	}
 
-	await Reviews.findByIdAndDelete(req.params.id);
+	await review.remove();
 
-	res.status(201).json({ succes: true, data: {} });
+	res.status(200).json({ succes: true, data: {} });
 });
